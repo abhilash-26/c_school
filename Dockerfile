@@ -1,14 +1,15 @@
-FROM node:8-alpine
+FROM node:latest
 
-EXPOSE 3000
+WORKDIR /usr/src/app
 
-ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
+COPY package*.json ./
 
-RUN mkdir /app
-WORKDIR /app
-ADD package.json yarn.lock /app/
-RUN yarn --pure-lockfile
-ADD . /app
+RUN npm install
 
-CMD ["yarn", "docker:start"]
+COPY . .
+
+EXPOSE 8090
+
+
+CMD ["npm","run", "dev"]
+
